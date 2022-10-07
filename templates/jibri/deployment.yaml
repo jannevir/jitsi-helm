@@ -67,6 +67,9 @@ spec:
         - name: dev-shm
           mountPath: /dev/shm
         {{- end }}
+        - name: asoundrc
+          mountPath: /home/jibri
+          readOnly: true
 
       volumes:
       - name: jibri-data
@@ -90,4 +93,10 @@ spec:
           sizeLimit: {{ .Values.jibri.shm.size | default "256Mi" | quote }}
       {{-   end }}
       {{- end }}
+      - name: asoundrc
+        configMap:
+          name: {{ include "jitsi-meet.jibri.fullname" . }}-asoundrc
+          items:
+            - key: asoundrc
+              path: ".asoundrc"
 {{- end }}
