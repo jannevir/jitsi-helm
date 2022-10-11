@@ -67,9 +67,6 @@ spec:
         - name: dev-shm
           mountPath: /dev/shm
         {{- end }}
-        - name: asoundrc
-          mountPath: /home/jibri
-          readOnly: true
 
       - name: nginx-rtmp
         image: "tiangolo/nginx-rtmp:latest-2021-09-17"
@@ -99,10 +96,4 @@ spec:
           sizeLimit: {{ .Values.jibri.shm.size | default "256Mi" | quote }}
       {{-   end }}
       {{- end }}
-      - name: asoundrc
-        configMap:
-          name: {{ include "jitsi-meet.jibri.fullname" . }}-asoundrc
-          items:
-            - key: asoundrc
-              path: ".asoundrc"
 {{- end }}
