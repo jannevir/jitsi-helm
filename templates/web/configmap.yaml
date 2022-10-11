@@ -14,6 +14,8 @@ data:
   NGINX_RESOLVER: {{ required "(web.resolverIP) Please set an IP address of your KubeDNS service!" .Values.web.resolverIP }}
   {{- end }}
   {{- if .Values.jibri.enabled }}
+  ENABLE_RECORDING: "false"
+  ENABLE_FILE_RECORDING_SERVICE_SHARING: "false"
   ENABLE_LIVESTREAMING: "true"
   {{- end }}
   {{- range $key, $value := .Values.web.extraEnvs }}
