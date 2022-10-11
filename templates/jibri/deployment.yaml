@@ -61,8 +61,6 @@ spec:
         volumeMounts:
         - name: jibri-data
           mountPath: /data
-        - name: dev-snd
-          mountPath: /dev/snd
         {{- if .Values.jibri.shm.enabled }}
         - name: dev-shm
           mountPath: /dev/shm
@@ -82,9 +80,6 @@ spec:
         {{- else }}
         emptyDir: {}
         {{- end }}
-      - name: dev-snd
-        hostPath:
-          path: /dev/snd
       {{- if .Values.jibri.shm.enabled }}
       - name: dev-shm
       {{-   if .Values.jibri.shm.useHost }}
