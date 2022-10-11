@@ -1,0 +1,17 @@
+{{- if .Values.jibri.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "jitsi-meet.jibri.fullname" . }}-rtmp
+  labels:
+    {{- include "jitsi-meet.jibri.labels" . | nindent 4 }}
+spec:
+  type: NodePort
+  ports:
+  - name: rtmp
+    port: 1935
+    nodePort: 31000
+    protocol: TCP
+  selector:
+    {{- include "jitsi-meet.jibri.selectorLabels" . | nindent 4 }}
+{{- end }}

@@ -71,6 +71,12 @@ spec:
           mountPath: /home/jibri
           readOnly: true
 
+      - name: nginx-rtmp
+        image: "tiangolo/nginx-rtmp:latest-2021-09-17"
+        ports:
+        - name: rtmp
+          containerPort: 1935
+
       volumes:
       - name: jibri-data
         {{- if .Values.jibri.persistence.enabled }}
