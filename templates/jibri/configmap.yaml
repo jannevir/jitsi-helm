@@ -13,7 +13,7 @@ data:
   JIBRI_STRIP_DOMAIN_JID: muc
   JIBRI_LOGS_DIR: "/data/logs"
   DISPLAY: ":0"
-  PUBLIC_URL: 'http://{{ include "jitsi-meet.web.fullname" . }}'
+  PUBLIC_URL: '{{ include "jitsi-meet.internalURL" . }}'
   {{- range $key, $value := .Values.jibri.extraEnvs }}
   {{- if not (kindIs "invalid" $value) }}
   {{ $key }}: {{ tpl $value $ | quote }}

@@ -89,6 +89,11 @@ Create the name of the service account to use
 {{- end -}}
 
 
+{{- define "jitsi-meet.internalURL" -}}
+{{- if .Values.web.httpRedirect -}}https://{{- else -}}http://{{- end -}}
+  {{- include "jitsi-meet.web.fullname" . }}.{{ .Release.Namespace }}.svc
+{{- end -}}
+
 {{- define "jitsi-meet.publicURL" -}}
 {{- if .Values.publicURL }}
 {{- .Values.publicURL -}}
