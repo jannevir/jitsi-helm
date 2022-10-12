@@ -208,6 +208,8 @@ jibri:
   ## and/or stream their meetings (e.g. to YouTube).
   enabled: false
 
+  asDaemonSet: false
+
   ## Enable persistent storage for local recordings.
   ## If disabled, jibri pod will use a transient
   ## emptyDir-backed storage instead.
