@@ -123,6 +123,7 @@ jicofo:
   extraEnvs: {}
 
 jvb:
+  asDaemonSet: false
   replicaCount: 1
   image:
     repository: jitsi/jvb

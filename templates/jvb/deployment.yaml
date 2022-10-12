@@ -1,6 +1,10 @@
 {{- $serverID := default "podIP" .Values.jvb.websockets.serverID }}
 apiVersion: apps/v1
+{{- if .Values.jvb.asDaemonSet }}
+kind: DaemonSet
+{{- else }}
 kind: Deployment
+{{- end }}
 metadata:
   name: {{ include "jitsi-meet.jvb.fullname" . }}
   labels:
@@ -10,7 +14,9 @@ metadata:
     {{ toYaml . | nindent 4 }}
   {{- end }}
 spec:
+  {{- if eq .Values.jvb.asDaemonSet false }}
   replicas: {{ .Values.jvb.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "jitsi-meet.jvb.selectorLabels" . | nindent 6 }}
@@ -53,9 +59,9 @@ spec:
           - configMapRef:
               name: {{ include "jitsi-meet.jvb.fullname" . }}
           env:
-          {{- if or .Values.jvb.useNodeIP .Values.jvb.publicIP }}
+          {{- if or .Values.jvb.asDaemonSet (or .Values.jvb.useNodeIP .Values.jvb.publicIP) }}
           - name: DOCKER_HOST_ADDRESS
-            {{- if .Values.jvb.publicIP }}
+            {{- if and .Values.jvb.publicIP (eq .Values.jvb.asDaemonSet false) }}
             value: {{ .Values.jvb.publicIP }}
             {{- else }}
             valueFrom:
@@ -88,7 +94,7 @@ spec:
           ports:
             - name: rtp-udp
               containerPort: {{ .Values.jvb.UDPPort }}
-              {{- if .Values.jvb.useHostPort }}
+              {{- if or .Values.jvb.asDaemonSet .Values.jvb.useHostPort }}
               hostPort: {{ .Values.jvb.UDPPort }}
               {{- end }}
               protocol: UDP
